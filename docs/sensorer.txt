@@ -1,0 +1,7 @@
+R4DCB08: tager op til 8 I2C temp/hum sensorer. Adresse kan kun sættes via Modbus.
+
+Carlo: Adresse kan kun sættes via display.
+
+Password til disse målere. Jeg skal sørge for at sætte dem til et eller andet, som vi aldrig glemmer.
+
+Meatrol, kan kun sættes via display. 
