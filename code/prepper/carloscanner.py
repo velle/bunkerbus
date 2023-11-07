@@ -1,34 +1,53 @@
+#!/usr/bin/env python
+
 import minimalmodbus as mmb
 import argparse
 import serial
 
-def scan(baud):
-    print('scanning for baud',baud)
-    instrument.serial.baudrate = baud # default 19200         # Baud
-    instrument.serial.bytesize = 8
-    instrument.serial.parity   = serial.PARITY_NONE
-    instrument.serial.stopbits = 1
-    instrument.serial.timeout  = 1
+#BAUD_VALS = [9600]
+#BYTESIZE_VALS = [7,8]
+#PARITY_VALS = [ serial.PARITY_EVEN, serial.PARITY_ODD,
+                #serial.PARITY_MARK, serial.PARITY_NONE,  serial.PARITY_SPACE,]
+#STOPBITS_VALS = [serial.STOPBITS_ONE, serial.STOPBITS_TWO, serial.STOPBITS_ONE_POINT_FIVE]
+#TIMEOUT = 2
 
-    for addr in range(0,10):
+BAUD_VALS = [9600]
+BYTESIZE_VALS = [8]
+PARITY_VALS = [ serial.PARITY_NONE ]
+STOPBITS_VALS = [serial.STOPBITS_ONE]
+TIMEOUT = 2
+
+
+def scan(baud, bytesize, parity, stopbits, timeout=TIMEOUT):
+    instrument.serial.baudrate = baud # default 19200         # Baud
+    instrument.serial.bytesize = bytesize
+    instrument.serial.parity   = parity
+    instrument.serial.stopbits = stopbits
+    instrument.serial.timeout  = timeout
+
+    for addr in range(1,2):
+        print ("baudrate:%s bytesize:%s parity:%s stopbits:%s timeout:%ss addr:%d" % (baud, bytesize, parity, stopbits, timeout, addr))
         try:
             #ctrl_id_code = instrument.read_register(0x000B)
-            ctrl_id_code = instrument.read_register(0x5000)
-            print(addr, ctrl_id_code)
+            #ctrl_id_code = instrument.read_register(0x5000)
+            ctrl_id_code = instrument.read_register(0x0302) # Carlo Gavazzi, firmware version code
+#            ctrl_id_code = instrument.read_register(0x0302) # Carlo Gavazzi, controls identification code
+            print('SUCCESS: ctrl_id_code: ', ctrl_id_code)
         except mmb.NoResponseError:
-            print('fail')
+            pass
+            #print(addr, 'fail')
 
 if __name__ == '__main__':
     parser=argparse.ArgumentParser(prog='carloscanner.py')
-    parser.add_argument('baud',default=None)
 
     instrument = mmb.Instrument('/dev/ttyUSB0', 1)  # port name, slave address
-    args = parser.parse_args()
 
-    if args.baud:
-        bauds = args.baud.split(',')
-    else:
-        bauds = [9600]
 
-    for baud in bauds:
-        scan(baud)
+    for baud in BAUD_VALS:
+        for bytesize in BYTESIZE_VALS:
+            for parity in PARITY_VALS:
+                for stopbits in STOPBITS_VALS:
+                    scan(baud,bytesize,parity,stopbits)
+
+    #scan(baud=9600,bytesize=8,parity=serial.PARITY_NONE,stopbits=1)
+    #scan(baud=9600,bytesize=8,parity=serial.PARITY_NONE,stopbits=1)
