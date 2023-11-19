@@ -4,6 +4,11 @@ ssh -R 6000:localhost:6000 remote-user@vps
 
 autossh -M 5731 -fNR 6000:localhost:22 server-user@11.22.33.44
 
+ssh -R 6000:localhost:6000 tunnel@64.226.84.94
+
+ssh -o "ExitOnForwardFailure yes" -o "ServerAliveInterval 30" -o "ServerAliveCountMax 2" -R 10022:127.0.0.1:22 tunnel@64.226.84.94
+
+
 ssh root@64.226.84.94
 sudo adduser \
    --system \
@@ -17,3 +22,5 @@ nano /var/tunnel/.ssh/authorized_keys
 indsæt velle public key
 
 nano /home/cloud-user/.ssh/authorized_keys
+
+
