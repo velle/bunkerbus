@@ -6,7 +6,7 @@ Edit the crontab file by typing:
 
 Add this line:
 
-    `* * * * * /home/osaa/bunkerbus/em340/get.sh >> /home/osaa/em340data/data.csv`
+    `* * * * * /home/osaa/bunkerbus/em340/carlologger.py >> /home/osaa/em340data/data.csv`
 
 # To make the data available outside
 
@@ -16,3 +16,5 @@ Add this line:
 Måske en bedre løsning.
 
 https://developers.google.com/sheets/api/quickstart/python
+
+

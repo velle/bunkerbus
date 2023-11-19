@@ -1,9 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import minimalmodbus as mmb
 import argparse
 import serial
 import time
+import datetime as dt
 
 REGISTERS = [
     ('V_L1',0),
@@ -18,6 +19,7 @@ REGISTERS = [
 ]
 
 if __name__ == '__main__':
+    d = dt.datetime.now().isoformat(timespec='seconds')
     instrument = mmb.Instrument('/dev/ttyUSB0', 1)  # port name, slave address
     instrument.serial.baudrate = 9600 # default 19200         # Baud
     instrument.serial.bytesize = 8
@@ -33,4 +35,4 @@ if __name__ == '__main__':
         time.sleep(0.5)
 
     s = ';'.join([str(m) for m in measurements])
-    print(s)
+    print('%s;%s' % (d,s) )
