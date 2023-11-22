@@ -19,6 +19,7 @@ REGISTERS = [
 ]
 
 def request_and_print():
+    d = dt.datetime.now().isoformat(timespec='seconds')
     measurements=[]
     for name,regaddr in REGISTERS:
         measurements.append(
@@ -32,7 +33,6 @@ def request_and_print():
 
 if __name__ == '__main__':
 
-    d = dt.datetime.now().isoformat(timespec='seconds')
     instrument = mmb.Instrument('/dev/ttyUSB0', 1)  # port name, slave address
     instrument.serial.baudrate = 9600 # default 19200         # Baud
     instrument.serial.bytesize = 8
