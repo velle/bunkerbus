@@ -18,15 +18,7 @@ REGISTERS = [
     ('kWh_L3',68),
 ]
 
-if __name__ == '__main__':
-    d = dt.datetime.now().isoformat(timespec='seconds')
-    instrument = mmb.Instrument('/dev/ttyUSB0', 1)  # port name, slave address
-    instrument.serial.baudrate = 9600 # default 19200         # Baud
-    instrument.serial.bytesize = 8
-    instrument.serial.parity   = serial.PARITY_NONE
-    instrument.serial.stopbits = serial.STOPBITS_ONE
-    instrument.serial.timeout  = 1
-
+def request_and_print():
     measurements=[]
     for name,regaddr in REGISTERS:
         measurements.append(
@@ -36,3 +28,16 @@ if __name__ == '__main__':
 
     s = ';'.join([str(m) for m in measurements])
     print('%s;%s' % (d,s) )
+
+
+if __name__ == '__main__':
+
+    d = dt.datetime.now().isoformat(timespec='seconds')
+    instrument = mmb.Instrument('/dev/ttyUSB0', 1)  # port name, slave address
+    instrument.serial.baudrate = 9600 # default 19200         # Baud
+    instrument.serial.bytesize = 8
+    instrument.serial.parity   = serial.PARITY_NONE
+    instrument.serial.stopbits = serial.STOPBITS_ONE
+    instrument.serial.timeout  = 1
+
+    request_and_print()
