@@ -17,10 +17,41 @@ sudo adduser \
    --disabled-password \
    --home /var/tunnel \
    tunnel
-su tunnel
+
 nano /var/tunnel/.ssh/authorized_keys
+
 indsæt velle public key
 
 nano /home/cloud-user/.ssh/authorized_keys
 
+ssh \
+   -o "ExitOnForwardFailure yes" \
+   -o "ServerAliveInterval 30" \
+   -o "ServerAliveCountMax 2" \
+   -R 10022:127.0.0.1:22 \
+   tunnel@64.226.84.94
+
+ssh -R 10022:127.0.0.1:22 tunnel@64.226.84.94
+
+autossh \
+   -M 5731 \
+   -fNR \
+   10022:localhost:22 \
+   tunnel@64.226.84.94
+
+autossh \
+   -M 5731 \
+   -fNR \
+   6000:localhost:22 \
+   server-user@11.22.33.44
+
+
+
+
+
+
+
+https://gist.github.com/thomasfr/9707568
+
+sudo cp autossh.service /etc/systemd/system/
 

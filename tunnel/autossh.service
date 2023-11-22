@@ -1,0 +1,15 @@
+[Unit]
+Description=Keeps a tunnel to 'remote.example.com' open
+After=network.target
+
+[Service]
+User=osaa
+# -p [PORT]
+# -l [user]
+# -M 0 --> no monitoring
+# -N Just open the connection and do nothing (not interactive)
+# LOCALPORT:IP_ON_EXAMPLE_COM:PORT_ON_EXAMPLE_COM
+ExecStart=/usr/bin/autossh -M 0 -N -q -o "ServerAliveInterval 60" -o "ServerAliveCountMax 3" -p 22 -l tunnel 64.226.84.94 -R 10022:127.0.0.1:22 -i /home/osaa/.ssh/id_rsa.tunnel
+
+[Install]
+WantedBy=multi-user.target
