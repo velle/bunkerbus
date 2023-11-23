@@ -28,8 +28,7 @@ def request_and_print():
         time.sleep(0.5)
 
     s = ';'.join([str(m) for m in measurements])
-    print('%s;%s' % (d,s) )
-
+    print('%s;%s' % (d,s),flush=True)
 
 if __name__ == '__main__':
 
@@ -40,4 +39,5 @@ if __name__ == '__main__':
     instrument.serial.stopbits = serial.STOPBITS_ONE
     instrument.serial.timeout  = 1
 
-    request_and_print()
+    while True:
+        request_and_print()
